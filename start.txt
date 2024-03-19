@@ -1,0 +1,1 @@
+php cli.php -plex-url=http://192.168.1.108:32400 -token=Vj_1MsbSyS1zYB_cYxyA
