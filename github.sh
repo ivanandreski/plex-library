@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Check if the access token is provided
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <access_token>"
+    exit 1
+fi
+
 # Navigate to the root of the repository
 cd "$(git rev-parse --show-toplevel)" || exit
 
@@ -10,5 +16,5 @@ git add .
 commit_message="chron-scan-$(date +"%Y-%m-%d_%H-%M-%S")"
 git commit -m "$commit_message"
 
-# Push changes using the stored access token
-git push origin main
+# Push changes using the provided access token
+git push https://github.com/ivanandreski/plex-library.git HEAD:main --force --quiet --follow-tags "token:$1"
