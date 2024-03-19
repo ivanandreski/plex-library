@@ -17,4 +17,4 @@ commit_message="chron-scan-$(date +"%Y-%m-%d_%H-%M-%S")"
 git commit -m "$commit_message"
 
 # Push changes using the provided access token
-git push https://github.com/ivanandreski/plex-library.git HEAD:main --force --quiet --follow-tags "token:$1"
+git push origin HEAD:main --force --quiet "token:$1"
