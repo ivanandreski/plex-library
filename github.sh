@@ -1,10 +1,6 @@
 #!/bin/bash
 
-# Check if the access token is provided
-
-
-# Navigate to the root of the repository
-cd "$(git rev-parse --show-toplevel)" || exit
+php cli.php -plex-url=http://192.168.1.108:32400 -token=Vj_1MsbSyS1zYB_cYxyA
 
 # Add all changes
 git add .
