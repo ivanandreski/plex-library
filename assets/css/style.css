@@ -7,20 +7,18 @@ body {
 	font-family: "Arial","Helvetica",sans-serif;
 	font-size: 12px;
 	color: #272B2D;
-	background: #9A9A9A url(../images/background.jpg);
 }
-.left { float: left; }
-.right { float: right; }
-.clear { clear: both; }
-.hide { display: none; }
+
 #container {
-	width: 920px;
-	padding: 0 20px;
+	width: 100%;
 	margin: 0 auto;
-	background: url(../images/container-bg.png) repeat-y;
+	background-color: white;
 }
 
-
+#content {
+	display: flex;
+	margin-bottom: 20px;
+}
 
 /* HEADER //////////////////////////////////////////////////////////////////////////*/
 
@@ -28,6 +26,7 @@ body {
 	height: 95px;
 	background: #282B2E;
 	border-bottom: 5px solid #FF9421;
+	display: block;
 }
 #header h1 {
 	display: block;
@@ -65,9 +64,9 @@ body {
 #toggle_sidebar { display: none; }
 
 #sidebar {
-	float: left;
 	width: 200px;
 	margin-right: 2px;
+	border-right: 1px solid black;
 }
 
 .sidebar-section h2 {
@@ -136,8 +135,7 @@ body {
 /* MAIN //////////////////////////////////////////////////////////////////////////*/
 
 #main {
-	float: left;
-	width: 718px;
+	flex-grow: 1;
 }
 
 #section-header {
@@ -184,14 +182,21 @@ body {
 }
 
 #item-list {
-	width: 700px;
+	width: 100%;
 	margin-left: 11px;
 	margin-top: 20px;
+	display: flex;
+}
+#item-list ul {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Automatically determine the number of columns based on available space */
+    grid-gap: 10px; /* Adjust the gap between grid items */
+    list-style: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
 }
 .item {
-	float: left;
 	width: 150px;
-	margin: 0 12px 24px;
 	background: #E7EBED;
 	color: #262B2C;
 	text-shadow: 1px 1px 2px #BBB;
@@ -199,9 +204,7 @@ body {
 	-moz-border-radius: 8px;
 	border-radius: 8px;	
 }
-.item:nth-child(4n+1) {
-	clear: left;
-}
+
 .item img {
 	-webkit-border-radius: 8px;
 	/*-moz-border-radius: 8px;*/ /* Until Mozilla support clipping content with border-radius this will remain :( */
@@ -248,7 +251,7 @@ body {
 	top: 0;
 	left: 0;
 	width: 745px;
-	max-height: 500px;
+	/* max-height: 500px; */
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
 	border-radius: 8px;
