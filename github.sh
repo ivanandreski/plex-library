@@ -11,4 +11,4 @@ commit_message="chron-scan-$(date +"%Y-%m-%d_%H-%M-%S")"
 git commit -m "$commit_message"
 
 # Push changes using the stored access token
-git push https://github.com/${GITHUB_REPOSITORY}.git HEAD:main --force
+git push origin main
