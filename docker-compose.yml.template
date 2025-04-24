@@ -11,3 +11,4 @@ services:
       - GIT_AUTHOR_NAME=
       - GIT_AUTHOR_EMAIL=
       - GITHUB_TOKEN=
+    restart: no
