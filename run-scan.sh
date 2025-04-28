@@ -1,6 +1,6 @@
 #!/bin/bash
 
-php cli.php -plex-url=${PLEX_ADDRESS} token=${PLEX_TOKEN}
+php cli.php -plex-url=${PLEX_ADDRESS} -token=${PLEX_TOKEN}
 
 git config --global user.name "$GIT_AUTHOR_NAME"
 git config --global user.email "$GIT_AUTHOR_EMAIL"
