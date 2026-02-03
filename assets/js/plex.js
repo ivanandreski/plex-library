@@ -374,10 +374,11 @@ var PLEX = {
 		var popup_html = PLEX.generate_item_content();
 		PLEX._popup_overlay.fadeIn().height($(document).height());
 		PLEX._popup_container
-			.html(popup_html)
+			.html(`<div id="popup-card-container">${popup_html}</div>`)
 			.css({
-				top: $(window).scrollTop() + ($(window).height()-PLEX._popup_container.height())/2,
-				left: ($(window).width()-PLEX._popup_container.width())/2
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center"
 			})
 			.fadeIn();
 	}, // end func: display_item

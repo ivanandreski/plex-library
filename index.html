@@ -12,6 +12,7 @@
 	<script src="assets/js/jquery.1.4.4.min.js"></script>
 	<script src="assets/js/utils.js"></script>
 	<script src="assets/js/plex.js"></script>
+	<script src="assets/js/index.js"></script>
 	<script>
 		jQuery(document).ready(function ($) {
 			PLEX.run();
@@ -23,14 +24,12 @@
 	<div id="container">
 
 		<div id="header">
-			<h1><span>Plex Export</span></h1>
-			<p><span>Library Items</span> <strong id="total_items"></strong></p>
+			<img id="hamburger-menu" src="./assets/images/hamburger-menu.svg" onclick="toggleSidebar()"/>
+			<img src="./assets/images/plex.svg" />
 		</div><!-- end #header -->
 
 		<div id="content">
-
-			<div id="sidebar">
-
+			<div id="sidebar" class="">
 				<div class="sidebar-section">
 					<h2>Library</h2>
 					<ul class="sections-list" id="plex_section_list">
@@ -84,8 +83,8 @@
 
 	</div><!-- end #container -->
 
-	<div id="popup-overlay"></div>
-	<div id="popup-container"></div>
+	<div id="popup-overlay" class="" onclick="toggleSidebar()"></div>
+	<div id="popup-container" onclick="closePopup(event)"></div>
 
 </body>
 
