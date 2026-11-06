@@ -34,6 +34,13 @@ def obj(a): if (a|length) == 0 then [] else (a | map({key: (.key|tostring), valu
 def skipword: ascii_downcase | split(" ") as $w
 	| if ($w|length) > 1 and ($w[0] | IN("a","the","der","die","das")) then $w[1:] | join(" ") else . end;
 
+def tier: (.videoResolution // "" | tostring) | if . == "4k" then "4K" elif . == "1080" then "1080p" elif . == "720" then "720p" else "480p" end;
+def range: ([(.Part // [])[].Stream // [] | .[] | select(.streamType == 1)]) as $v
+	| if any($v[]; .DOVIPresent == true) then "Dolby Vision"
+	elif any($v[]; ((.displayTitle // "") + (.extendedDisplayTitle // "")) | test("HDR10\\+")) then "HDR10+"
+	elif any($v[]; .colorTrc | IN("smpte2084", "arib-std-b67")) then "HDR"
+	else "SDR" end;
+
 def movie($t): (.Media // [])[0] as $m | {
 	key: (.ratingKey|tonumber), type: "movie", thumb: th($t), title,
 	duration: i(.duration), view_count: i(.viewCount), tagline: f(.tagline),
@@ -41,6 +48,8 @@ def movie($t): (.Media // [])[0] as $m | {
 	release_date: f(.originallyAvailableAt), addedAt: i(.addedAt),
 	content_rating: f(.contentRating), summary: f(.summary), studio: f(.studio),
 	genre: tags(.Genre), director: tags(.Director), role: tags(.Role),
+	resolutions: ([(.Media // [])[] | tier] | unique),
+	dynamic_ranges: ([(.Media // [])[] | range] | unique),
 	media: (if i($m.duration) > 0 then {
 		bitrate: n($m.bitrate), aspect_ratio: n($m.aspectRatio), audio_channels: n($m.audioChannels),
 		audio_codec: f($m.audioCodec), video_codec: f($m.videoCodec),

@@ -10,6 +10,8 @@ var PLEX = {
 	current_sort_order: "asc",
 	current_genre: "all",
 	current_director: "all",
+	current_resolution: "all",
+	current_range: "all",
 	show_all_genres: false,
 	show_all_directors: false,
 	data_loaded: false,
@@ -50,6 +52,8 @@ var PLEX = {
 			PLEX.current_genre = "all";
 			PLEX.current_director = "all";
 			PLEX.current_seen = "all";
+			PLEX.current_resolution = "all";
+			PLEX.current_range = "all";
 			PLEX.show_all_directors = false;
 			$("li", PLEX._sorts_list).removeClass("current");
 			$("li em", PLEX._sorts_list).remove();
@@ -106,6 +110,8 @@ var PLEX = {
 		});
 		PLEX.display_director_list(item_count, directors);
 		PLEX.display_seen_list("all");
+		PLEX.display_tag_list("resolution", "resolutions", ["4K", "1080p", "720p", "480p"], PLEX.current_resolution);
+		PLEX.display_tag_list("range", "dynamic_ranges", ["Dolby Vision", "HDR10+", "HDR", "SDR"], PLEX.current_range);
 
 	}, // end func: display_section
 
@@ -227,6 +233,32 @@ var PLEX = {
 	},
 
 
+	display_tag_list: function(name, field, order, current) {
+		var section = PLEX["_" + name + "_list_section"], list = PLEX["_" + name + "_list"];
+		if (PLEX.current_section.type != "movie") return section.hide();
+		var html = '<li data-tag="all"><em>'+PLEX.current_section.num_items+'</em>All</li>';
+		$.each(order, function(i, v) {
+			var n = 0;
+			$.each(PLEX.filter_items_by_tag(PLEX.current_section.items, field, v), function() { n++; });
+			if (n) html += '<li data-tag="'+v+'"><em>'+n+'</em>'+v+'</li>';
+		});
+		list.html(html);
+		$("li", list).each(function() { if ($(this).attr("data-tag") == current) $(this).addClass("current"); });
+		section.show();
+	}, // end func: display_tag_list
+
+
+	filter_items_by_tag: function(all_items, field, value) {
+		if(value == "all") return all_items;
+		var items_to_show = {};
+		$.each(all_items, function(key, item){
+			if($.inArray(value, item[field]) === -1) return;
+			items_to_show[key] = item;
+		});
+		return items_to_show;
+	}, // end func: filter_items_by_tag
+
+
 	display_items: function(items) {
 
 		var items = PLEX.current_section.items
@@ -246,6 +278,9 @@ var PLEX = {
 		if(PLEX.current_director != "all") {
 			items = PLEX.filter_items_by_director(items, PLEX.current_director);
 		}
+
+		items = PLEX.filter_items_by_tag(items, "resolutions", PLEX.current_resolution);
+		items = PLEX.filter_items_by_tag(items, "dynamic_ranges", PLEX.current_range);
 
 		PLEX._item_list.html("");
 		var num_items = 0;
@@ -539,6 +574,10 @@ var PLEX = {
 		PLEX._director_list = $("#plex_director_list");
 		PLEX._seen_list_section = $("#plex_seen_list_section");
 		PLEX._seen_list = $("#plex_seen_list");
+		PLEX._resolution_list_section = $("#plex_resolution_list_section").hide();
+		PLEX._resolution_list = $("#plex_resolution_list");
+		PLEX._range_list_section = $("#plex_range_list_section").hide();
+		PLEX._range_list = $("#plex_range_list");
 		PLEX._section_title = $("#section-header h2");
 		PLEX._section_meta = $("#section-header p");
 		PLEX._section_filter = $("#section-header input");
@@ -569,6 +608,16 @@ var PLEX = {
 		
 		$("li", PLEX._seen_list).live("click", function(){
 			PLEX.change_seen($(this).attr('data-seen'));
+		});
+
+		$("li", PLEX._resolution_list).live("click", function(){
+			PLEX.current_resolution = $(this).attr('data-tag');
+			PLEX.display_section(PLEX.current_section.key);
+		});
+
+		$("li", PLEX._range_list).live("click", function(){
+			PLEX.current_range = $(this).attr('data-tag');
+			PLEX.display_section(PLEX.current_section.key);
 		});
 
 		$("#genre_show_all").live("click", function(){
