@@ -1,16 +1,9 @@
-FROM php:8-cli
+FROM alpine:3.20
+
+RUN apk add --no-cache curl jq git \
+ && git config --global --add safe.directory /app
 
 WORKDIR /app
 
-# Install git
-RUN apt-get update && apt-get install -y git
-
-# Mark the project as a safe directory for Git inside the container
-RUN git config --global --add safe.directory /app
-
-COPY cli.php .
-COPY run-scan.sh .
-
-RUN chmod +x /app/run-scan.sh
-
+# Scripts come from the ./:/app volume (see docker-compose.yml.template)
 CMD ["./run-scan.sh"]
