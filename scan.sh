@@ -1,6 +1,6 @@
 #!/bin/sh
 # Scan a Plex server and write plex-data/data.js (+ thumbnails) for the static site.
-# Env: PLEX_ADDRESS (e.g. http://192.168.1.108:32400), PLEX_TOKEN
+# Env: PLEX_ADDRESS (e.g. http://192.168.1.108:32400), PLEX_TOKEN, SKIP_THUMBS=true (no thumbnail downloads)
 set -eu
 cd "$(dirname "$0")"
 : "${PLEX_ADDRESS:?PLEX_ADDRESS is required}"
@@ -16,7 +16,7 @@ plex() { curl -fsS --retry 2 -H 'Accept: application/json' -H "X-Plex-Token: ${P
 # $1 = item key, $2 = url-encoded source thumb url (or "-"); prints relative path or nothing
 thumb() {
 	f="$DATA_DIR/thumb_$1.jpeg"
-	if [ ! -e "$f" ] && [ "$2" != - ]; then
+	if [ ! -e "$f" ] && [ "$2" != - ] && [ "${SKIP_THUMBS:-false}" != true ]; then
 		plex "photo/:/transcode?width=150&height=250&url=$2" > "$f.part" && mv "$f.part" "$f" \
 			|| { rm -f "$f.part"; log "Error: could not load thumbnail for $1"; }
 	fi
