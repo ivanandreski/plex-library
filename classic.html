@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Plex Export</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
+	<link rel="stylesheet" href="assets/css/classic.css" />
+	<script type="module" src="assets/js/classic.js"></script>
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<img id="hamburger-menu" src="./assets/images/hamburger-menu.svg" data-do="menu" alt="Menu" />
+			<img src="./assets/images/plex.svg" alt="Plex" />
+			<a id="swap" data-swap href="index.html">Video store view &raquo;</a>
+		</div>
+
+		<div id="content">
+			<div id="sidebar">
+				<div class="sidebar-section"><h2>Library</h2><ul class="sections-list" id="sections"></ul></div>
+				<div class="sidebar-section"><h2>Sort</h2><ul class="generic-list" id="sorts"></ul></div>
+				<div class="sidebar-section" id="resolution-box"><h2>Resolution</h2><ul class="generic-list" id="resolutions"></ul></div>
+				<div class="sidebar-section" id="range-box"><h2>Dynamic range</h2><ul class="generic-list" id="ranges"></ul></div>
+				<div class="sidebar-section" id="seen-box"><h2>Seen</h2><ul class="generic-list" id="seen"></ul></div>
+				<div class="sidebar-section" id="genre-box"><h2>Genres</h2><ul class="generic-list" id="genres"></ul></div>
+				<div class="sidebar-section" id="director-box"><h2>Directors</h2><ul class="generic-list" id="directors"></ul></div>
+			</div>
+
+			<div id="main">
+				<div id="section-header"><div>
+					<input type="text" placeholder="Search" />
+					<h2>Loading</h2>
+					<p>Please wait while this section loads...</p>
+				</div></div>
+				<div id="item-list-status"><p>Loading data from PLEX...</p></div>
+				<div id="item-list"><ul></ul></div>
+			</div>
+		</div>
+	</div>
+
+	<div id="overlay" data-do="menu"></div>
+	<dialog id="popup"></dialog>
+</body>
+</html>

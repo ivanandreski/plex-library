@@ -1,101 +1,32 @@
-<!DOCTYPE html "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html lang="en">
-
-<head profile="http://www.w3.org/2005/10/profile">
-	<meta charset=utf-8 />
-	<title>Plex Export</title>
-	<meta name="viewport" content="initial-scale=1,minimum-scale=1,maximum-scale=1" />
+<head>
+	<meta charset="utf-8" />
+	<title>Ivan's Video</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
-
-	<link rel="stylesheet" href="assets/css/style.css" type="text/css" />
-
-	<script src="assets/js/jquery.1.4.4.min.js"></script>
-	<script src="assets/js/utils.js"></script>
-	<script src="assets/js/plex.js"></script>
-	<script src="assets/js/index.js"></script>
-	<script>
-		jQuery(document).ready(function ($) {
-			PLEX.run();
-		});
-	</script>
+	<link rel="stylesheet" href="assets/css/store.css" />
+	<script type="module" src="assets/js/store.js"></script>
 </head>
-
 <body>
-	<div id="container">
+	<header>
+		<div class="logo"><b>Ivan's</b> Video</div>
+		<nav id="tabs"></nav>
+		<input id="search" type="search" placeholder="Search titles" />
+		<a id="swap" data-swap href="classic.html">Classic view</a>
+	</header>
 
-		<div id="header">
-			<img id="hamburger-menu" src="./assets/images/hamburger-menu.svg" onclick="toggleSidebar()"/>
-			<img src="./assets/images/plex.svg" />
-		</div><!-- end #header -->
+	<div id="aisles"></div>
 
-		<div id="content">
-			<div id="sidebar" class="">
-				<div class="sidebar-section">
-					<h2>Library</h2>
-					<ul class="sections-list" id="plex_section_list">
-						<li>Loading...</li>
-					</ul>
-				</div><!-- end .sidebar-section -->
+	<div id="bar">
+		<button id="drawer-btn" data-do="drawer">Filters</button>
+		<div id="drawer"></div>
+	</div>
 
-				<div class="sidebar-section">
-					<h2>Sort</h2>
-					<ul class="generic-list" id="plex_sort_list">
-						<li class="current" data-sort="title"><em>asc</em>By title</li>
-						<li data-sort="rating">By rating</li>
-						<li data-sort="release">By release date</li>
-						<li data-sort="addedAt">By recently added</li>
-					</ul>
-				</div><!-- end .sidebar-section -->
+	<div id="active"></div>
+	<p id="count">Loading...</p>
+	<main><ul id="grid"></ul></main>
 
-				<div class="sidebar-section" id="plex_resolution_list_section">
-					<h2>Resolution</h2>
-					<ul class="generic-list" id="plex_resolution_list"></ul>
-				</div><!-- end .sidebar-section -->
-
-				<div class="sidebar-section" id="plex_range_list_section">
-					<h2>Dynamic range</h2>
-					<ul class="generic-list" id="plex_range_list"></ul>
-				</div><!-- end .sidebar-section -->
-
-				<div class="sidebar-section" id="plex_genre_list_section">
-					<h2>Genres</h2>
-					<ul class="generic-list" id="plex_genre_list"></ul>
-				</div><!-- end .sidebar-section -->
-
-				<div class="sidebar-section" id="plex_director_list_section">
-					<h2>Directors</h2>
-					<ul class="generic-list" id="plex_director_list"></ul>
-				</div><!-- end .sidebar-section -->
-
-			</div><!-- end #sidebar -->
-
-			<div id="main">
-
-				<div id="section-header">
-					<div>
-						<input type="text" placeholder="Search" />
-						<h2>Loading</h2>
-						<p>Please wait while this section loads...</p>
-					</div>
-				</div><!-- end .section-header -->
-
-				<div id="item-list-status">
-					<p>Loading data from PLEX...</p>
-				</div>
-
-				<div id="item-list">
-					<ul></ul>
-				</div>
-
-			</div><!-- end #main -->
-
-		</div>
-
-	</div><!-- end #container -->
-
-	<div id="popup-overlay" class="" onclick="toggleSidebar()"></div>
-	<div id="popup-container" onclick="closePopup(event)"></div>
-
+	<dialog id="popup"></dialog>
 </body>
-
 </html>

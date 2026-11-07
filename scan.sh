@@ -1,5 +1,5 @@
 #!/bin/sh
-# Scan a Plex server and write plex-data/data.js (+ thumbnails) for the static site.
+# Scan a Plex server and write plex-data/data.json (+ thumbnails) for the static site.
 # Env: PLEX_ADDRESS (e.g. http://192.168.1.108:32400), PLEX_TOKEN, SKIP_THUMBS=true (no thumbnail downloads)
 set -eu
 cd "$(dirname "$0")"
@@ -23,7 +23,6 @@ thumb() {
 	if [ -e "$f" ]; then echo "$f"; fi
 }
 
-# Output shape mirrors the old cli.php so assets/js/plex.js keeps working unchanged.
 LIB='
 def f(x): if x == null or x == "" then false else x end;
 def n(x): if x == null or x == "" then false else (x|tonumber) end;
@@ -135,7 +134,6 @@ done < "$TMP/sections.tsv"
 if [ ! -s "$TMP/sections.jsonl" ]; then log "Error: no valid sections found, aborting"; exit 1; fi
 
 {
-	printf 'var raw_plex_data = '
 	jq -sjac --argjson ts "$(date +%s)000" --arg upd "last updated : $(date '+%Y-%m-%d - %H:%M')" '{
 		status: "success", version: 1, last_generated: $ts, last_updated: $upd,
 		total_items: (map(if .num_items == 0 then 0 elif .type == "show" then ([.items[].num_episodes] | add) else .num_items end) | add),
@@ -143,7 +141,6 @@ if [ ! -s "$TMP/sections.jsonl" ]; then log "Error: no valid sections found, abo
 		section_display_order: map(select(.num_items > 0) | .key),
 		sections: (map({key: (.key|tostring), value: .}) | from_entries)
 	}' "$TMP/sections.jsonl"
-	printf ';'
-} > "$TMP/data.js"
-mv "$TMP/data.js" "$DATA_DIR/data.js"
-log "Wrote $(wc -c < "$DATA_DIR/data.js" | tr -d ' ') bytes to $DATA_DIR/data.js"
+} > "$TMP/data.json"
+mv "$TMP/data.json" "$DATA_DIR/data.json"
+log "Wrote $(wc -c < "$DATA_DIR/data.json" | tr -d ' ') bytes to $DATA_DIR/data.json"
