@@ -6,4 +6,5 @@ services:
     volumes:
       - ./:/app
     env_file: .env
+    command: ["./run.sh", "--uhd-posters", "--publish-site"]
     restart: no
