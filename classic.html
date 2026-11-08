@@ -5,8 +5,13 @@
 	<title>Plex Export</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
-	<link rel="stylesheet" href="assets/css/classic.css" />
-	<script type="module" src="assets/js/classic.js"></script>
+	<!-- ?t= busts GitHub Pages caching; the import map does the same for core.js, which classic.js imports -->
+	<script>
+		const t = "?t=" + Date.now();
+		document.write(`<script type="importmap">{"imports":{"./assets/js/core.js":"./assets/js/core.js${t}"}}<\/script>
+			<link rel="stylesheet" href="assets/css/classic.css${t}" />
+			<script type="module" src="assets/js/classic.js${t}"><\/script>`);
+	</script>
 </head>
 <body>
 	<div id="container">

@@ -15,7 +15,9 @@ export const bytes = b => {
 	return `${Math.round(b * 100) / 100} Pb`;
 };
 export const epTag = (s, e) => `S${String(s.index).padStart(2, "0")}E${String(e.index).padStart(2, "0")}`;
-export const thumb = it => it.thumb || "assets/images/default.png";
+// thumbs are versioned by scan time (set in start), so GitHub Pages' cache can't serve stale ones
+let ver = "";
+export const thumb = it => (it.thumb ? it.thumb + ver : "assets/images/default.png");
 export const rating = it => (it.user_rating || it.rating || 0); // 0-10, 0 = none
 
 // ---- filtering ----
@@ -83,8 +85,9 @@ const pick = el => { el.parentNode.querySelectorAll(".current").forEach(x => x.c
 // ---- app: state + hash routing + keyboard + click delegation ----
 // Elements with data-do="name" data-v="value" call app.acts[name](value, el). Pages add their own acts.
 export async function start(render) {
-	const res = await fetch("plex-data/data.json");
+	const res = await fetch("plex-data/data.json?t=" + Date.now(), { cache: "no-store" });
 	const data = await res.json();
+	ver = "?v=" + data.last_generated;
 	if (data.status != "success" || !data.num_sections) throw new Error("No data");
 
 	const app = {
